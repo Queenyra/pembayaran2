@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_16_025346) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_16_064955) do
   create_table "spp_batches", force: :cascade do |t|
     t.datetime "start_at"
     t.datetime "end_at"
@@ -18,4 +18,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_025346) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "spp_students", force: :cascade do |t|
+    t.integer "spp_batch_id", null: false
+    t.string "nis"
+    t.string "name"
+    t.string "gender"
+    t.datetime "birth_at"
+    t.string "address"
+    t.string "pict"
+    t.string "father"
+    t.string "mother"
+    t.string "phone"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["spp_batch_id"], name: "index_spp_students_on_spp_batch_id"
+  end
+
+  add_foreign_key "spp_students", "spp_batches"
 end
