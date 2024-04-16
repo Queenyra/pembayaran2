@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_16_065144) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_16_065241) do
   create_table "spp_batches", force: :cascade do |t|
     t.datetime "start_at"
     t.datetime "end_at"
@@ -22,6 +22,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_065144) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "spp_invoices", force: :cascade do |t|
+    t.integer "spp_student_id", null: false
+    t.integer "spp_category_id", null: false
+    t.integer "amount"
+    t.integer "paid_amount"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["spp_category_id"], name: "index_spp_invoices_on_spp_category_id"
+    t.index ["spp_student_id"], name: "index_spp_invoices_on_spp_student_id"
   end
 
   create_table "spp_students", force: :cascade do |t|
@@ -41,5 +53,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_065144) do
     t.index ["spp_batch_id"], name: "index_spp_students_on_spp_batch_id"
   end
 
+  add_foreign_key "spp_invoices", "spp_categories"
+  add_foreign_key "spp_invoices", "spp_students"
   add_foreign_key "spp_students", "spp_batches"
 end
