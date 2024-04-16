@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_16_065241) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_16_065345) do
   create_table "spp_batches", force: :cascade do |t|
     t.datetime "start_at"
     t.datetime "end_at"
@@ -36,6 +36,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_065241) do
     t.index ["spp_student_id"], name: "index_spp_invoices_on_spp_student_id"
   end
 
+  create_table "spp_payments", force: :cascade do |t|
+    t.integer "spp_batch_id", null: false
+    t.integer "user_id", null: false
+    t.integer "spp_student_id", null: false
+    t.integer "spp_invoice_id", null: false
+    t.string "tipe"
+    t.integer "amount"
+    t.datetime "pay_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["spp_batch_id"], name: "index_spp_payments_on_spp_batch_id"
+    t.index ["spp_invoice_id"], name: "index_spp_payments_on_spp_invoice_id"
+    t.index ["spp_student_id"], name: "index_spp_payments_on_spp_student_id"
+    t.index ["user_id"], name: "index_spp_payments_on_user_id"
+  end
+
   create_table "spp_students", force: :cascade do |t|
     t.integer "spp_batch_id", null: false
     t.string "nis"
@@ -55,5 +71,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_065241) do
 
   add_foreign_key "spp_invoices", "spp_categories"
   add_foreign_key "spp_invoices", "spp_students"
+  add_foreign_key "spp_payments", "spp_batches"
+  add_foreign_key "spp_payments", "spp_invoices"
+  add_foreign_key "spp_payments", "spp_students"
+  add_foreign_key "spp_payments", "users"
   add_foreign_key "spp_students", "spp_batches"
 end
